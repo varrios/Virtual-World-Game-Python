@@ -1,4 +1,10 @@
-from World import *
+from Swiat import *
+from Aplikacja import *
+
 if __name__ == '__main__':
-    world = World(10)
+    swiat = Swiat()
+    aplikacja = Aplikacja(swiat)
+    swiat.aplikacja = aplikacja
+    aplikacja.dodajLog("Logi:")
+    aplikacja.run()
 

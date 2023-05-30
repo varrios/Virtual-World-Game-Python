@@ -32,10 +32,18 @@ class Aplikacja:
         self.__logWiadomosci.clear()
 
     def run(self):
-        refresh_map = True
-
+        refresh_map = False
+        self.wypiszMape()
+        self.wyczyszLog()
+        self.dodajLog(f'Tura nr. {self.__swiat._tura} -------- Ilosc organizmow na planszy: {self.__swiat._iloscOrganizmow}')
+        self.wypiszLogi()
+        self.wypiszPrzyciski()
+        pygame.display.flip()
+        self.__clock.tick(60)
         while True:
             if refresh_map:
+                self.wyczyszLog()
+                self.dodajLog(f'Tura nr. {self.__swiat._tura} -------- Ilosc organizmow na planszy: {self.__swiat._iloscOrganizmow}')
                 self.__swiat.wykonajTure()
                 self.wypiszMape()
                 self.wypiszLogi()
@@ -51,7 +59,6 @@ class Aplikacja:
                 elif event.type == pygame.KEYDOWN:
                     if event.key in (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
                         refresh_map = True
-                        self.dodajLog("Nowa tura")
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         mouse_pos = pygame.mouse.get_pos()
@@ -72,25 +79,22 @@ class Aplikacja:
         for i in range(self.__swiat._rozmiar):
             for j in range(self.__swiat._rozmiar):
                 if self.__swiat._plansza[j][i] is None:
-                    kolorKomorki = (255, 255, 255)
+                    kolorKomorki = (100, 100, 100)
                 else:
                     kolorKomorki = self.__swiat._plansza[j][i].rysowanie()
                 pygame.draw.rect(
                     self.__screen,
                     kolorKomorki,
-                    (j * rozmiarKomorki, i * rozmiarKomorki, rozmiarKomorki, rozmiarKomorki)
+                    (i * rozmiarKomorki, j * rozmiarKomorki, rozmiarKomorki, rozmiarKomorki)
                 )
 
     def wypiszLogi(self):
-        log_rect = pygame.Rect(self.__screen.get_width() - 500, 0, 500, self.__screen.get_height())
-        pygame.draw.rect(self.__screen, (255, 255, 255), log_rect)
+        log_rect = pygame.Rect(self.__screen.get_width() - 600, 0, 600, self.__screen.get_height())
+        pygame.draw.rect(self.__screen, (166, 160, 159), log_rect)
 
-        log_font = pygame.font.SysFont(None, 20)
+        log_font = pygame.font.SysFont(None, 19)
         log_text_rect = log_rect.inflate(-10, -10)
-        line_spacing = 10
-        self.wyczyszLog()
-        self.dodajLog(f'Tura nr. {self.__swiat._tura}')
-        self.dodajLog(f'Ilosc organizmow na planszy: {self.__swiat._iloscOrganizmow}')
+        line_spacing = 15
         for i, message in enumerate(self.__logWiadomosci):
             text_render = log_font.render(message, True, (0, 0, 0))
             text_rect = text_render.get_rect()

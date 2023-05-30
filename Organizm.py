@@ -2,24 +2,23 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import random
 
+
 @dataclass
 class Punkt:
     x: int
     y: int
 
+
 class Organizm(ABC):
-    _nazwa = "Organizm"
-    _nowy_organizm = False
-    _sila = 0
-    _inicjatywa = 0
-    _polozenie = Punkt(0,0)
-    _polozenieWczesniejsze = Punkt(0,0)
-    _wiek = 0
-    _swiat = None
 
     def __init__(self, swiat, x, y):
-        self._x, self._y = x, y
-        self._prevx, self._prevy = x, y
+        self._nazwa = "Organizm"
+        self._nowy_organizm = False
+        self._sila = 0
+        self._inicjatywa = 0
+        self._wiek = 0
+        self._polozenie = Punkt(x, y)
+        self._polozenieWczesniejsze = Punkt(x, y)
         self._swiat = swiat
 
     @abstractmethod
@@ -27,7 +26,7 @@ class Organizm(ABC):
         pass
 
     @abstractmethod
-    def kolizja(self):
+    def kolizja(self, organizmAtakowany):
         pass
 
     @abstractmethod
@@ -35,18 +34,18 @@ class Organizm(ABC):
         pass
 
     @abstractmethod
-    def stworzDziecko(self, x,y):
+    def stworzDziecko(self, x, y):
         pass
 
     def losujKierunekNiezajety(self):
         directions = []
         board = self._swiat._plansza
-        if (self._polozenie.x + 1 <= self._swiat.getSize() - 1) and (
+        if (self._polozenie.x + 1 <= self._swiat._rozmiar - 1) and (
                 board[self._polozenie.y][self._polozenie.x + 1] is None):
             directions.append(0)
         if (self._polozenie.x - 1 >= 0) and (board[self._polozenie.y][self._polozenie.x - 1] is None):
             directions.append(1)
-        if (self._polozenie.y + 1 <= self._swiat.getSize() - 1) and (
+        if (self._polozenie.y + 1 <= self._swiat._rozmiar - 1) and (
                 board[self._polozenie.y + 1][self._polozenie.x] is None):
             directions.append(2)
         if (self._polozenie.y - 1 >= 0) and (board[self._polozenie.y - 1][self._polozenie.x] is None):
@@ -67,7 +66,7 @@ class Organizm(ABC):
 
         return Punkt(child_x, child_y)
 
-    def breed(self):
+    def rozmnoz(self):
         child_position = self.losujKierunekNiezajety()
         if child_position.x == -1 or child_position.y == -1:
             self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} - rozmnazanie nieudane - za malo miejsca')
@@ -75,10 +74,11 @@ class Organizm(ABC):
         child = self.stworzDziecko(child_position.x, child_position.y)
         child.stanOrganizmu = True
         self._swiat.dodajOrganizm(child)
-        self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} - rozmnazanie udane - pozycja dziecka ({child_position.x, child_position.y})')
+        self._swiat._aplikacja.dodajLog(
+            f'Rezultat ruchu - {self._nazwa} - rozmnazanie udane - pozycja dziecka {child_position.x, child_position.y}')
 
     def umrzyj(self):
-        self._swiat._plansza[self.polozenie.y][self.polozenie.x] = None
+        self._swiat._plansza[self._polozenie.y][self._polozenie.x] = None
         self._swiat._listaOrganizmow.remove(self)
 
     def czyUcieczka(self, predator):
@@ -95,5 +95,3 @@ class Organizm(ABC):
 
     def jestNiesmiertelny(self):
         return False
-
-

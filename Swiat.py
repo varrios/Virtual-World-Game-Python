@@ -1,6 +1,9 @@
 from copy import copy
 
+from Antylopa import Antylopa
 from Owca import Owca
+from Wilk import Wilk
+from Zolw import Zolw
 
 
 class Swiat:
@@ -20,19 +23,21 @@ class Swiat:
         self._iloscOrganizmow = len(self._listaOrganizmow)
 
     def populuj(self):
-        self.dodajOrganizm(Owca(self, 19, 19))
-        self.dodajOrganizm(Owca(self, 0, 19))
-        self.dodajOrganizm(Owca(self, 17, 19))
-        self.dodajOrganizm(Owca(self, 18, 19))
-        for org in self._listaOrganizmow:
-            print(f'{org._polozenie.x, org._polozenie.y}')
+        #self.dodajOrganizm(Owca(self, 19, 19))
+        #self.dodajOrganizm(Owca(self, 0, 19))
+        #self.dodajOrganizm(Wilk(self, 0, 0))
+        self.dodajOrganizm(Antylopa(self, 0, 1))
+        self.dodajOrganizm(Owca(self, 0, 0))
+        self.dodajOrganizm(Owca(self, 0, 2))
+        self.dodajOrganizm(Zolw(self, 0, 3))
 
     def wykonajTure(self):
         self._iloscOrganizmow = len(self._listaOrganizmow)
-        self._listaOrganizmow.sort(key=lambda o: (o._inicjatywa, o._wiek))
+        self._listaOrganizmow.sort(key=lambda o: (-o._inicjatywa, -o._wiek))
         for org in self._listaOrganizmow:
             if org._nowy_organizm:
                 org._nowy_organizm = False
                 continue
+            print(f'{org._nazwa}')
             org.akcja()
         self._tura += 1

@@ -100,7 +100,7 @@ class Zwierze(Organizm):
                 self.wykonajRuch(nowa_pozycja.x, nowa_pozycja.y)
                 self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - Czlowiek jest niesmiertelny - nowa pozycja {nowa_pozycja.x, nowa_pozycja.y}')
                 return
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {organizmAtakowany._nazwa} zabija {self._nazwa} na pozycji {self._polozenie.x, self._polozenie.y}')
+            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {organizmAtakowany._nazwa} zabija {self._nazwa} na pozycji {self._polozenieWczesniejsze.x, self._polozenieWczesniejsze.y}')
             self.umrzyj()
 
 

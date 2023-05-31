@@ -21,7 +21,8 @@ class Aplikacja:
             pygame.Rect(10, self.__rozmiarOkna - 490, 100, 80),
             pygame.Rect(130, self.__rozmiarOkna - 490, 100, 80),
             pygame.Rect(250, self.__rozmiarOkna - 490, 100, 80),
-            pygame.Rect(370, self.__rozmiarOkna - 490, 100, 80)
+            pygame.Rect(370, self.__rozmiarOkna - 490, 100, 80),
+            pygame.Rect(490, self.__rozmiarOkna - 490, 100, 80)
         ]
 
 
@@ -36,6 +37,7 @@ class Aplikacja:
         self.wypiszMape()
         self.wyczyszLog()
         self.dodajLog(f'Tura nr. {self.__swiat._tura} -------- Ilosc organizmow na planszy: {self.__swiat._iloscOrganizmow}')
+        self.dodajLog(f'Cooldown: {self.__swiat._czlowiek._cooldown} -------- Pozostaly czas trwania: {self.__swiat._czlowiek._czas_trwania_niesmiertelnosci}')
         self.wypiszLogi()
         self.wypiszPrzyciski()
         pygame.display.flip()
@@ -44,6 +46,7 @@ class Aplikacja:
             if refresh_map:
                 self.wyczyszLog()
                 self.dodajLog(f'Tura nr. {self.__swiat._tura} -------- Ilosc organizmow na planszy: {self.__swiat._iloscOrganizmow}')
+                self.dodajLog(f'Cooldown: {self.__swiat._czlowiek._cooldown} -------- Pozostaly czas trwania: {self.__swiat._czlowiek._czas_trwania_niesmiertelnosci}')
                 self.__swiat.wykonajTure()
                 self.wypiszMape()
                 self.wypiszLogi()
@@ -59,12 +62,14 @@ class Aplikacja:
                 elif event.type == pygame.KEYDOWN:
                     if event.key in (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT):
                         refresh_map = True
+                        self.__swiat._czlowiek._wybor = event.key
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         mouse_pos = pygame.mouse.get_pos()
                         for i, button_rect in enumerate(self.__buttons):
                             if button_rect.collidepoint(mouse_pos):
                                 if i == 0:
+                                    self.__swiat._czlowiek._wybor = ''
                                     refresh_map = True
                                     self.dodajLog("Wcisnieto przycisk: Nastepna tura")
                                 elif i == 1:
@@ -73,6 +78,9 @@ class Aplikacja:
                                     self.dodajLog("Wcisnieto przycisk: Wczytaj gre")
                                 elif i == 3:
                                     self.dodajLog("Wcisnieto przycisk: Wyjdz")
+                                elif i == 4:
+                                    self.dodajLog("Wcisnieto przycisk: Uzyj umiejetnosci")
+                                    self.__swiat._czlowiek.uzyjUmiejetnosci()
 
     def wypiszMape(self):
         rozmiarKomorki = 40
@@ -127,7 +135,6 @@ class Aplikacja:
     def wypiszPrzyciski(self):
         for i, button_rect in enumerate(self.__buttons):
             pygame.draw.rect(self.__screen, (255, 255, 255), button_rect)
-            button_text = f"Button {i + 1}"
             if i == 0:
                 button_text = "Nastepna tura"
             if i == 1:
@@ -136,6 +143,8 @@ class Aplikacja:
                 button_text = "Wczytaj"
             if i == 3:
                 button_text = "Wyjdz"
+            if i == 4:
+                button_text = "Umiejetnosc"
             button_font = pygame.font.SysFont(None, 20)
             text_render = button_font.render(button_text, True, (0, 0, 0))
             text_rect = text_render.get_rect(center=button_rect.center)

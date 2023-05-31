@@ -66,12 +66,12 @@ class Zwierze(Organizm):
             self.wykonajRuch(organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y)
             return
         if organizmAtakowany.czyTrujacy() and not self.jestNiesmiertelny():
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} - zjada {organizmAtakowany._nazwa} i ginie na pozycji {organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y}')
+            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} - zjada {organizmAtakowany._nazwa} i ginie.')
             organizmAtakowany.umrzyj()
             self.umrzyj()
             return
         if organizmAtakowany.czyOdpartoAtak(self):
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {organizmAtakowany._nazwa} odbija atak {self._nazwa} na pozycji {organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y}')
+            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {organizmAtakowany._nazwa} odbija atak {self._nazwa}')
             return
         if organizmAtakowany.czyUcieczka(self) or self.czyUcieczka(organizmAtakowany):
             self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - antylopa ucieka od walki')
@@ -84,9 +84,9 @@ class Zwierze(Organizm):
                     return
                 self.wykonajRuch(organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y)
                 organizmAtakowany.wykonajRuch(nowa_pozycja.x, nowa_pozycja.y)
-                self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - Czlowiek jest niesmiertelny - nowa pozycja {nowa_pozycja.x, nowa_pozycja.y}')
+                self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - Czlowiek jest niesmiertelny')
                 return
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} zabija {organizmAtakowany._nazwa} na pozycji {organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y}')
+            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} zabija {organizmAtakowany._nazwa}')
             organizmAtakowany.umrzyj()
             self.wykonajRuch(organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y)
             return
@@ -98,9 +98,9 @@ class Zwierze(Organizm):
                         f'Rezultat ruchu - Czlowiek jest niesmiertelny lecz nie ma miejsca na zmiane polozenia')
                     return
                 self.wykonajRuch(nowa_pozycja.x, nowa_pozycja.y)
-                self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - Czlowiek jest niesmiertelny - nowa pozycja {nowa_pozycja.x, nowa_pozycja.y}')
+                self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - Czlowiek jest niesmiertelny')
                 return
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {organizmAtakowany._nazwa} zabija {self._nazwa} na pozycji {self._polozenieWczesniejsze.x, self._polozenieWczesniejsze.y}')
+            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {organizmAtakowany._nazwa} zabija {self._nazwa}')
             self.umrzyj()
 
 

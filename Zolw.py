@@ -25,4 +25,4 @@ class Zolw(Zwierze):
             super().akcja()
             return
         else:
-            self._swiat._aplikacja.dodajLog(f'Zolw {self._polozenie.x, self._polozenie.y} nie wykonal ruchu w tej turze')
+            self._swiat._aplikacjaLogi.append(f'Zolw {self._polozenie.x, self._polozenie.y} nie wykonal ruchu w tej turze')

@@ -28,6 +28,6 @@ class BarszczSosnowskiego(Roslina):
             if new_x >= 0 and new_y >=0 and new_y < self._swiat._rozmiar and new_y < self._swiat._rozmiar:
                 if self._swiat._plansza[new_y][new_x] is not None and isinstance(self._swiat._plansza[new_y][new_x], Zwierze):
                     if not self._swiat._plansza[new_y][new_x].jestNiesmiertelny():
-                        self._swiat._aplikacja.dodajLog(f'{self._swiat._plansza[new_y][new_x]._nazwa} zostal zabity przez sasiedztwo z {self._nazwa}')
+                        self._swiat._aplikacjaLogi.append(f'{self._swiat._plansza[new_y][new_x]._nazwa} zostal zabity przez sasiedztwo z {self._nazwa}')
                         self._swiat._plansza[new_y][new_x].umrzyj()
         super().akcja()

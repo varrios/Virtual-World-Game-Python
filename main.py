@@ -8,7 +8,7 @@ if __name__ == '__main__':
     swiat._czlowiek = czlowiek
     swiat.dodajOrganizm(czlowiek)
     aplikacja = Aplikacja(swiat)
-    swiat._aplikacja = aplikacja
+    swiat._aplikacjaLogi = aplikacja._logWiadomosci
     aplikacja.dodajLog("Logi:")
     aplikacja.run()
 

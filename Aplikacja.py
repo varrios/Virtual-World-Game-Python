@@ -1,13 +1,13 @@
 import pygame
 import sys
+import pickle
 
 class Aplikacja:
     __swiat = None
-    __screen = None
     __clock = None
     __rozmiarOkna = 1400
 
-    __logWiadomosci = []
+    _logWiadomosci = []
     __buttons = []
 
     def __init__(self, swiat):
@@ -27,10 +27,10 @@ class Aplikacja:
 
 
     def dodajLog(self, wiadomosc):
-        self.__logWiadomosci.append(wiadomosc)
+        self._logWiadomosci.append(wiadomosc)
 
     def wyczyszLog(self):
-        self.__logWiadomosci.clear()
+        self._logWiadomosci.clear()
 
     def run(self):
         refresh_map = False
@@ -74,8 +74,11 @@ class Aplikacja:
                                     self.dodajLog("Wcisnieto przycisk: Nastepna tura")
                                 elif i == 1:
                                     self.dodajLog("Wcisnieto przycisk: Zapisz gre")
+                                    self.zapiszGre()
                                 elif i == 2:
                                     self.dodajLog("Wcisnieto przycisk: Wczytaj gre")
+                                    print("wczytaj")
+                                    self.wczytajGre()
                                 elif i == 3:
                                     self.dodajLog("Wcisnieto przycisk: Wyjdz")
                                 elif i == 4:
@@ -115,15 +118,15 @@ class Aplikacja:
         line_spacing = 15
 
         # Calculate the total height of all the messages
-        total_height = len(self.__logWiadomosci) * (log_font.get_height() + line_spacing)
+        total_height = len(self._logWiadomosci) * (log_font.get_height() + line_spacing)
 
         # Calculate the maximum number of visible lines based on available space
         max_visible_lines = log_text_rect.height // (log_font.get_height() + line_spacing)
 
         # Calculate the starting index of the visible messages
-        start_index = max(len(self.__logWiadomosci) - max_visible_lines, 0)
+        start_index = max(len(self._logWiadomosci) - max_visible_lines, 0)
 
-        for i, message in enumerate(self.__logWiadomosci[start_index:], start=start_index):
+        for i, message in enumerate(self._logWiadomosci[start_index:], start=start_index):
             text_render = log_font.render(message, True, (0, 0, 0))
             text_rect = text_render.get_rect()
             text_rect.topleft = (
@@ -149,3 +152,16 @@ class Aplikacja:
             text_render = button_font.render(button_text, True, (0, 0, 0))
             text_rect = text_render.get_rect(center=button_rect.center)
             self.__screen.blit(text_render, text_rect)
+
+
+    def zapiszGre(self):
+        container = self.__swiat
+        with open('my_object.pickle', 'wb') as file:
+            pickle.dump(container, file)
+
+    def wczytajGre(self):
+        with open('my_object.pickle', 'rb') as file:
+            container = pickle.load(file)
+        self.__swiat = container
+        self._logWiadomosci = self.__swiat._aplikacjaLogi
+        self.run()

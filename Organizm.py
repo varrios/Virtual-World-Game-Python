@@ -69,12 +69,12 @@ class Organizm(ABC):
     def rozmnoz(self):
         child_position = self.losujKierunekNiezajety()
         if child_position.x == -1 or child_position.y == -1:
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} - rozmnazanie nieudane - za malo miejsca')
+            self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - {self._nazwa} - rozmnazanie nieudane - za malo miejsca')
             return
         child = self.stworzDziecko(child_position.x, child_position.y)
         child.stanOrganizmu = True
         self._swiat.dodajOrganizm(child)
-        self._swiat._aplikacja.dodajLog(
+        self._swiat._aplikacjaLogi.append(
             f'Rezultat ruchu - {self._nazwa} - rozmnazanie udane - pozycja dziecka {child_position.x, child_position.y}')
 
     def umrzyj(self):

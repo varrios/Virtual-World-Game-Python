@@ -19,7 +19,7 @@ class Swiat:
         self._listaOrganizmow = []
         self._iloscOrganizmow = 0
         self._tura = 0
-        self._aplikacja = None
+        self._aplikacjaLogi = None
         self._plansza = [[None] * self._rozmiar for i in range(self._rozmiar)]
         self.populuj()
         self._czlowiek = None
@@ -51,3 +51,4 @@ class Swiat:
                 continue
             org.akcja()
         self._tura += 1
+

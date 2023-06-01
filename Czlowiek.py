@@ -46,11 +46,11 @@ class Czlowiek(Zwierze):
             return
         drugi_organizm = self._swiat._plansza[nowe_polozenie.y][nowe_polozenie.x]
         if drugi_organizm is not None:
-            self._swiat._aplikacja.dodajLog(f"Proba ruchu Czlowieka {self._polozenieWczesniejsze.x, self._polozenieWczesniejsze.y} -> {nowe_polozenie.x, nowe_polozenie.y}")
+            self._swiat._aplikacjaLogi.append(f"Proba ruchu Czlowieka {self._polozenieWczesniejsze.x, self._polozenieWczesniejsze.y} -> {nowe_polozenie.x, nowe_polozenie.y}")
             super().kolizja(drugi_organizm)
         else:
             self.wykonajRuch(nowe_polozenie.x, nowe_polozenie.y)
-            self._swiat._aplikacja.dodajLog(f"Ruch Czlowieka {self._polozenieWczesniejsze.x, self._polozenieWczesniejsze.y} -> {nowe_polozenie.x, nowe_polozenie.y}")
+            self._swiat._aplikacjaLogi.append(f"Ruch Czlowieka {self._polozenieWczesniejsze.x, self._polozenieWczesniejsze.y} -> {nowe_polozenie.x, nowe_polozenie.y}")
 
     def jestNiesmiertelny(self):
         return self._niesmiertelnosc

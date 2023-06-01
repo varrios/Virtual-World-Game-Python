@@ -45,11 +45,11 @@ class Zwierze(Organizm):
         elif docelowe_kordy.x == -1:
             return
         if pole_docelowe is not None:
-            self._swiat._aplikacja.dodajLog(f'Proba ruchu {self._nazwa} {self._polozenie.x, self._polozenie.y} -> {docelowe_kordy.x, docelowe_kordy.y}')
+            self._swiat._aplikacjaLogi.append(f'Proba ruchu {self._nazwa} {self._polozenie.x, self._polozenie.y} -> {docelowe_kordy.x, docelowe_kordy.y}')
             self.kolizja(pole_docelowe)
         else:
             self.wykonajRuch(docelowe_kordy.x, docelowe_kordy.y)
-            self._swiat._aplikacja.dodajLog(f'Ruch {self._nazwa} {self._polozenieWczesniejsze.x, self._polozenieWczesniejsze.y} -> {docelowe_kordy.x, docelowe_kordy.y}')
+            self._swiat._aplikacjaLogi.append(f'Ruch {self._nazwa} {self._polozenieWczesniejsze.x, self._polozenieWczesniejsze.y} -> {docelowe_kordy.x, docelowe_kordy.y}')
 
     def kolizja(self, organizmAtakowany):
         #rozmnazanie
@@ -57,36 +57,36 @@ class Zwierze(Organizm):
             if(self._wiek >= 5 and organizmAtakowany._wiek >= 5):
                 self.rozmnoz()
                 return
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} - rozmnazanie zakonczone niepowodzeniem, za mlode organizmy')
+            self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - {self._nazwa} - rozmnazanie zakonczone niepowodzeniem, za mlode organizmy')
             return
         #walka
         if organizmAtakowany.dodajeSile(self):
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} - zjada Guarane i zwieksza poziom sily na pozycji {organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y}. Aktualna sila: {self._sila}')
+            self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - {self._nazwa} - zjada Guarane i zwieksza poziom sily na pozycji {organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y}. Aktualna sila: {self._sila}')
             organizmAtakowany.umrzyj()
             self.wykonajRuch(organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y)
             return
         if organizmAtakowany.czyTrujacy() and not self.jestNiesmiertelny():
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} - zjada {organizmAtakowany._nazwa} i ginie.')
+            self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - {self._nazwa} - zjada {organizmAtakowany._nazwa} i ginie.')
             organizmAtakowany.umrzyj()
             self.umrzyj()
             return
         if organizmAtakowany.czyOdpartoAtak(self):
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {organizmAtakowany._nazwa} odbija atak {self._nazwa}')
+            self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - {organizmAtakowany._nazwa} odbija atak {self._nazwa}')
             return
         if organizmAtakowany.czyUcieczka(self) or self.czyUcieczka(organizmAtakowany):
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - antylopa ucieka od walki')
+            self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - antylopa ucieka od walki')
             return
         if self._sila >= organizmAtakowany._sila:
             if organizmAtakowany.jestNiesmiertelny():
                 nowa_pozycja = organizmAtakowany.losujKierunekNiezajety()
                 if nowa_pozycja.x == -1 or nowa_pozycja.y == -1:
-                    self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - Czlowiek jest niesmiertelny lecz nie ma miejsca na zmiane polozenia')
+                    self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - Czlowiek jest niesmiertelny lecz nie ma miejsca na zmiane polozenia')
                     return
                 self.wykonajRuch(organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y)
                 organizmAtakowany.wykonajRuch(nowa_pozycja.x, nowa_pozycja.y)
-                self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - Czlowiek jest niesmiertelny')
+                self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - Czlowiek jest niesmiertelny')
                 return
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {self._nazwa} zabija {organizmAtakowany._nazwa}')
+            self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - {self._nazwa} zabija {organizmAtakowany._nazwa}')
             organizmAtakowany.umrzyj()
             self.wykonajRuch(organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y)
             return
@@ -94,13 +94,13 @@ class Zwierze(Organizm):
             if self.jestNiesmiertelny():
                 nowa_pozycja = self.losujKierunekNiezajety()
                 if nowa_pozycja.x == -1 or nowa_pozycja.y == -1:
-                    self._swiat._aplikacja.dodajLog(
+                    self._swiat._aplikacjaLogi.append(
                         f'Rezultat ruchu - Czlowiek jest niesmiertelny lecz nie ma miejsca na zmiane polozenia')
                     return
                 self.wykonajRuch(nowa_pozycja.x, nowa_pozycja.y)
-                self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - Czlowiek jest niesmiertelny')
+                self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - Czlowiek jest niesmiertelny')
                 return
-            self._swiat._aplikacja.dodajLog(f'Rezultat ruchu - {organizmAtakowany._nazwa} zabija {self._nazwa}')
+            self._swiat._aplikacjaLogi.append(f'Rezultat ruchu - {organizmAtakowany._nazwa} zabija {self._nazwa}')
             self.umrzyj()
 
 

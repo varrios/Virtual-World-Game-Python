@@ -71,18 +71,14 @@ class Aplikacja:
                                 if i == 0:
                                     self.__swiat._czlowiek._wybor = ''
                                     refresh_map = True
-                                    self.dodajLog("Wcisnieto przycisk: Nastepna tura")
                                 elif i == 1:
-                                    self.dodajLog("Wcisnieto przycisk: Zapisz gre")
                                     self.zapiszGre()
                                 elif i == 2:
-                                    self.dodajLog("Wcisnieto przycisk: Wczytaj gre")
-                                    print("wczytaj")
                                     self.wczytajGre()
+                                    refresh_map = True
                                 elif i == 3:
                                     self.dodajLog("Wcisnieto przycisk: Wyjdz")
                                 elif i == 4:
-                                    self.dodajLog("Wcisnieto przycisk: Uzyj umiejetnosci")
                                     self.__swiat._czlowiek.uzyjUmiejetnosci()
 
     def wypiszMape(self):
@@ -164,4 +160,6 @@ class Aplikacja:
             container = pickle.load(file)
         self.__swiat = container
         self._logWiadomosci = self.__swiat._aplikacjaLogi
+        self.wypiszLogi()
+        print(self._logWiadomosci)
         self.run()

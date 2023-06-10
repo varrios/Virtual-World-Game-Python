@@ -2,6 +2,7 @@ from copy import copy
 
 from Antylopa import Antylopa
 from BarszczSosnowskiego import BarszczSosnowskiego
+from CyberOwca import CyberOwca
 from Guarana import Guarana
 from Lis import Lis
 from Mlecz import Mlecz
@@ -30,16 +31,17 @@ class Swiat:
         self._iloscOrganizmow = len(self._listaOrganizmow)
 
     def populuj(self):
-        self.dodajOrganizm(Antylopa(self, 1, 1))
-        self.dodajOrganizm(Owca(self, 19, 0))
-        self.dodajOrganizm(Wilk(self, 15, 2))
-        self.dodajOrganizm(Zolw(self, 12, 3))
-        self.dodajOrganizm(Trawa(self, 1, 10))
-        self.dodajOrganizm(WilczeJagody(self, 1, 12))
-        self.dodajOrganizm(Trawa(self, 1, 10))
-        self.dodajOrganizm(Mlecz(self, 10, 10))
-        self.dodajOrganizm(Guarana(self, 10, 10))
-        self.dodajOrganizm(Lis(self, 5, 19))
+        # self.dodajOrganizm(Antylopa(self, 1, 1))
+        # self.dodajOrganizm(Owca(self, 19, 0))
+        # self.dodajOrganizm(Wilk(self, 15, 2))
+        # self.dodajOrganizm(Zolw(self, 12, 3))
+        # self.dodajOrganizm(Trawa(self, 1, 10))
+        # self.dodajOrganizm(WilczeJagody(self, 1, 12))
+        # self.dodajOrganizm(Trawa(self, 1, 10))
+        # self.dodajOrganizm(Mlecz(self, 10, 10))
+        # self.dodajOrganizm(Guarana(self, 10, 10))
+        # self.dodajOrganizm(Lis(self, 5, 19))
+        self.dodajOrganizm(CyberOwca(self, 1, 1))
         self.dodajOrganizm(BarszczSosnowskiego(self, 6, 19))
 
     def wykonajTure(self):

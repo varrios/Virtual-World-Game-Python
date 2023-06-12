@@ -34,14 +34,6 @@ class Aplikacja:
 
     def run(self):
         refresh_map = False
-        self.wypiszMape()
-        self.wyczyszLog()
-        self.dodajLog(f'Tura nr. {self.__swiat._tura} -------- Ilosc organizmow na planszy: {self.__swiat._iloscOrganizmow}')
-        self.dodajLog(f'Cooldown: {self.__swiat._czlowiek._cooldown} -------- Pozostaly czas trwania: {self.__swiat._czlowiek._czas_trwania_niesmiertelnosci}')
-        self.wypiszLogi()
-        self.wypiszPrzyciski()
-        pygame.display.flip()
-        self.__clock.tick(60)
         while True:
             if refresh_map:
                 self.wyczyszLog()
@@ -75,11 +67,23 @@ class Aplikacja:
                                     self.zapiszGre()
                                 elif i == 2:
                                     self.wczytajGre()
-                                    refresh_map = True
+                                    self.dodajLog("Wcisnieto przycisk: Wyjdz")
+                                    self.wypiszMape()
+                                    self.wypiszLogi()
+                                    self.wypiszPrzyciski()
+                                    pygame.display.flip()
+                                    self.__clock.tick(60)
                                 elif i == 3:
                                     self.dodajLog("Wcisnieto przycisk: Wyjdz")
+                                    pygame.quit()
+                                    sys.exit()
                                 elif i == 4:
                                     self.__swiat._czlowiek.uzyjUmiejetnosci()
+                                    self._logWiadomosci[0] = f'Tura nr. {self.__swiat._tura} -------- Ilosc organizmow na planszy: {self.__swiat._iloscOrganizmow}'
+                                    self._logWiadomosci[1] = f'Cooldown: {self.__swiat._czlowiek._cooldown} -------- Pozostaly czas trwania: {self.__swiat._czlowiek._czas_trwania_niesmiertelnosci}'
+                                    self.wypiszLogi()
+                                    pygame.display.flip()
+                                    self.__clock.tick(60)
 
     def wypiszMape(self):
         rozmiarKomorki = 40

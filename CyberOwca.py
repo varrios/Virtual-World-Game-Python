@@ -34,15 +34,21 @@ class CyberOwca(Zwierze):
         barszcz_do_zjedzenia = self.znajdzBarszcz()
         x_docelowy, y_docelowy = barszcz_do_zjedzenia._polozenie.x, barszcz_do_zjedzenia._polozenie.y
         x_aktualny, y_aktualny = self._polozenie.x, self._polozenie.y
-
+        pole_docelowe_x = x_aktualny
+        pole_docelowe_y = y_aktualny
         if x_docelowy > x_aktualny:
-            self.wykonajRuch(x_aktualny+1, y_aktualny)
+            pole_docelowe_x += 1
         elif x_docelowy < x_aktualny:
-            self.wykonajRuch(x_aktualny-1, y_aktualny)
+            pole_docelowe_x -= 1
         elif y_docelowy > y_aktualny:
-            self.wykonajRuch(x_aktualny, y_aktualny+1)
+            pole_docelowe_y += 1
         elif y_docelowy < y_aktualny:
-            self.wykonajRuch(x_aktualny, y_aktualny-1)
+            pole_docelowe_y -= 1
+        if self._swiat._plansza[pole_docelowe_y][pole_docelowe_x] is None:
+            self.wykonajRuch(pole_docelowe_x, pole_docelowe_y)
+            self._swiat._aplikacjaLogi.append(f"Ruch {self._nazwa} {x_aktualny, y_aktualny} -> {pole_docelowe_x, pole_docelowe_y}")
+        else:
+            self.kolizja(self._swiat._plansza[pole_docelowe_y][pole_docelowe_x])
         return
 
 
@@ -68,11 +74,11 @@ class CyberOwca(Zwierze):
                         q.put(Punkt(nx, ny))
 
     def kolizja(self, organizmAtakowany):
-        if (isinstance(organizmAtakowany, BarszczSosnowskiego)):
+        if isinstance(organizmAtakowany, BarszczSosnowskiego):
+            self._swiat._aplikacjaLogi.append(f"Rezultat ruchu - CyberOwca zabija {organizmAtakowany._nazwa}")
             organizmAtakowany.umrzyj()
-            print(self._swiat._listaOrganizmow)
             self.wykonajRuch(organizmAtakowany._polozenie.x, organizmAtakowany._polozenie.y)
         else:
-            super().kolizja()
+            super().kolizja(organizmAtakowany)
 
 

@@ -43,6 +43,7 @@ class Swiat:
         # self.dodajOrganizm(Lis(self, 5, 19))
         self.dodajOrganizm(CyberOwca(self, 1, 1))
         self.dodajOrganizm(BarszczSosnowskiego(self, 6, 19))
+        self.dodajOrganizm(BarszczSosnowskiego(self, 1,10))
 
     def wykonajTure(self):
         self._iloscOrganizmow = len(self._listaOrganizmow)
